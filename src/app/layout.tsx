@@ -5,8 +5,7 @@ import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: "Jaga Titik — transparansi tindak lanjut titik rawan",
-  description:
-    "Laporkan titik rawan secara anonim dan pantau apakah laporan itu ditindaklanjuti. Karya WIA MIA 2026.",
+  description: "Laporkan titik rawan secara anonim dan pantau apakah laporan itu ditindaklanjuti. Karya WIA MIA 2026.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -14,7 +13,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="id" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main id="konten" className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>

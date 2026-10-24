@@ -1,57 +1,102 @@
 import Link from "next/link";
+import ReportStory from "@/components/home/ReportStory";
+import LandingMotion from "@/components/home/LandingMotion";
 
-const features = [
-  {
-    title: "Lapor secara anonim",
-    text: "Tandai titik rawan tanpa menampilkan identitas. Laporan dinilai skor kepercayaannya agar laporan palsu sulit lolos.",
-  },
-  {
-    title: "Lihat tindak lanjutnya",
-    text: "Setiap titik punya timeline status dari dilaporkan sampai selesai, jadi publik tahu apa yang sudah dilakukan.",
-  },
-  {
-    title: "Pantau kinerja respons",
-    text: "Skor Respons wilayah dan daftar Titik Terabaikan membuat tindak lanjut instansi dapat diukur secara terbuka.",
-  },
+const timeline = [
+  { date: "18 Okt", title: "Laporan masuk", note: "Dua warga melaporkan lampu yang tidak menyala." },
+  { date: "19 Okt", title: "Lokasi ditinjau", note: "Pemeriksaan dan rencana perbaikan dicatat." },
+  { date: "21 Okt", title: "Perbaikan selesai", note: "Lampu kembali menyala. Riwayat tetap terbuka." },
+];
+
+const questions = [
+  ["Siapa yang bisa melihat laporan?", "Siapa pun bisa membuka peta dan melihat titik yang memenuhi aturan tayang. Masuk ke akun diperlukan untuk mengirim laporan."],
+  ["Apakah identitas saya ditampilkan?", "Nama dan identitas pelapor tidak ditampilkan di peta publik. Hindari menulis nama orang, nomor telepon, NIK, atau plat nomor dalam laporan."],
+  ["Kapan sebuah titik muncul?", "Titik dapat tayang setelah dilaporkan minimal dua akun berbeda atau diverifikasi admin. Tayang tidak selalu berarti sudah diverifikasi admin."],
+  ["Apakah ini menjamin suatu lokasi aman?", "Tidak. Peta menunjukkan laporan yang tersedia, bukan jaminan keamanan atau gambaran lengkap kondisi suatu wilayah."],
+  ["Apakah semua fitur sudah tersedia?", "Jaga Titik masih dalam pengembangan. Peta sudah dapat dijelajahi; contoh timeline dan transparansi di halaman ini memperlihatkan alur yang direncanakan."],
+  ["Bagaimana jika saya dalam bahaya?", "Utamakan keselamatan dan hubungi layanan darurat resmi. Jaga Titik bukan pengganti laporan polisi atau penanganan keadaan darurat."],
 ];
 
 export default function Home() {
   return (
-    <>
-      <section className="bg-brand text-white">
-        <div className="mx-auto max-w-6xl px-4 py-20">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-accent">
-            Transparansi tindak lanjut titik rawan
-          </p>
-          <h1 className="max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">
-            Bukan hanya di mana rawan, tapi apa yang dilakukan setelah dilaporkan.
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg text-slate-200">
-            Jaga Titik menghubungkan laporan warga dengan tindak lanjut instansi, sehingga titik rawan terlihat,
-            terverifikasi, dan dapat dipantau publik.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/peta" className="rounded bg-accent px-5 py-3 font-semibold text-brand hover:bg-amber-400">
-              Lihat peta
-            </Link>
-            <Link href="/transparansi" className="rounded border border-white/60 px-5 py-3 font-semibold hover:bg-white/10">
-              Lihat kinerja respons
-            </Link>
+    <div className="landing">
+      <LandingMotion />
+      <ReportStory />
+
+      <section className="record-section page-gutter" aria-labelledby="record-title">
+        <div className="record-introduction">
+          <h2 id="record-title" className="reveal">Cerita di<br />balik titik</h2>
+          <p className="reveal">Sebuah penanda di peta seharusnya punya kelanjutan. Catatan waktu dan tindakan membuat prosesnya bisa diikuti, bukan sekadar ditunggu.</p>
+          <Link href="/transparansi" className="text-link reveal">Kenali transparansi tindak lanjut</Link>
+        </div>
+        <div className="timeline-preview reveal" data-ui="timeline-preview">
+          <div className="preview-heading"><span>Riwayat tindak lanjut</span><span className="demo-tag">Contoh simulasi</span></div>
+          <p className="preview-subject">Lampu jalan belum menyala</p>
+          <ol className="timeline-list">
+            {timeline.map((item, index) => (
+              <li key={item.date} className="reveal">
+                <time dateTime={`2026-10-${[18, 19, 21][index]}`}>{item.date}</time>
+                <span className={`timeline-dot ${index === 2 ? "is-complete" : ""}`} aria-hidden="true" />
+                <div><p className="timeline-title">{item.title}</p><p>{item.note}</p></div>
+              </li>
+            ))}
+          </ol>
+          <p className="preview-footnote">Identitas pelapor tidak ditampilkan kepada publik.</p>
+        </div>
+      </section>
+
+      <section className="trust-section page-gutter" aria-labelledby="trust-title">
+        <div className="trust-heading">
+          <h2 id="trust-title" className="reveal">Kepercayaan<br />ada dasarnya</h2>
+          <p className="reveal">Laporan dinilai dari beberapa sinyal. Skor membantu peninjauan, tanpa mengklaim bahwa setiap laporan pasti benar.</p>
+        </div>
+        <div className="trust-body">
+          <div className="trust-preview reveal" data-ui="trust-preview">
+            <div className="preview-heading"><span>Skor kepercayaan</span><span className="demo-tag">Contoh simulasi</span></div>
+            <p className="trust-value">60<span> / 100</span></p>
+            <div className="trust-meter" role="meter" aria-label="Skor kepercayaan contoh" aria-valuemin={0} aria-valuemax={100} aria-valuenow={60}><span /></div>
+            <dl className="trust-factors">
+              <div><dt>Nilai dasar laporan</dt><dd>30</dd></div>
+              <div><dt>Lokasi perangkat dekat</dt><dd>+20</dd></div>
+              <div><dt>Satu pelapor lain</dt><dd>+10</dd></div>
+            </dl>
+            <p className="preview-footnote">Sinyal pendukung, bukan bukti kebenaran mutlak.</p>
+          </div>
+          <div className="trust-copy">
+            <div className="reveal"><h3>Terbuka caranya</h3><p>Aturan tayang, faktor kepercayaan, dan peluruhan bobot perlu bisa dipahami oleh siapa pun yang membaca peta.</p></div>
+            <div className="reveal"><h3>Terjaga identitasnya</h3><p>Yang dibutuhkan publik adalah lokasi dan tindak lanjut. Bukan nama korban atau identitas pribadi pelapor.</p></div>
+            <Link href="/metodologi" className="text-link reveal">Pelajari metodologi</Link>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <h2 className="text-2xl font-bold text-brand">Cara kerja</h2>
-        <div className="mt-6 grid gap-5 sm:grid-cols-3">
-          {features.map((f) => (
-            <article key={f.title} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-              <h3 className="text-lg font-semibold text-brand">{f.title}</h3>
-              <p className="mt-2 text-slate-600">{f.text}</p>
-            </article>
-          ))}
+      <section className="neglected-section page-gutter" aria-labelledby="neglected-title">
+        <div className="neglected-copy">
+          <h2 id="neglected-title" className="reveal">Yang tertunda<br />tetap terlihat</h2>
+          <p className="reveal">Laporan yang lama tanpa kabar tidak seharusnya hilang di antara titik lainnya. Titik Terabaikan memberi ruang untuk terus menanyakan tindak lanjut.</p>
+          <p className="neglected-rule reveal">Dalam rancangan saat ini: minimal tiga pelapor, belum selesai, dan tanpa pembaruan lebih dari 14 hari.</p>
+        </div>
+        <div className="neglected-preview reveal" data-ui="neglected-preview">
+          <div className="preview-heading"><span>Titik Terabaikan</span><span className="demo-tag">Contoh simulasi</span></div>
+          <p className="neglected-duration">18 <span>hari tanpa pembaruan</span></p>
+          <p className="preview-subject">Penerangan jalur pejalan kaki</p>
+          <p className="neglected-location">Wilayah contoh (simulasi)</p>
+          <div className="neglected-details"><span>4 pelapor</span><span>Menunggu tindak lanjut</span></div>
+          <p className="preview-footnote">Contoh fiktif, bukan penilaian kinerja instansi tertentu.</p>
         </div>
       </section>
-    </>
+
+      <section className="faq-section page-gutter" aria-labelledby="faq-title">
+        <h2 id="faq-title" className="reveal">Sebelum melapor</h2>
+        <div className="faq-answers">
+          {questions.map(([question, answer]) => <p key={question} className="reveal"><strong>{question}</strong> {answer}</p>)}
+        </div>
+      </section>
+
+      <section className="closing-section page-gutter" aria-labelledby="closing-title">
+        <div><h2 id="closing-title" className="reveal">Mulai dari sekitarmu</h2><p className="reveal">Kenali titik yang dilaporkan. Ikuti apa yang terjadi setelahnya.</p></div>
+        <Link href="/peta" className="action-primary reveal">Jelajahi peta <span aria-hidden="true">↗</span></Link>
+      </section>
+    </div>
   );
 }
