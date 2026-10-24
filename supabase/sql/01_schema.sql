@@ -278,7 +278,8 @@ begin
 
   if v_spot is null then
     select r.id into v_region from public.regions r
-    where r.boundary is not null and st_intersects(r.boundary, v_g) limit 1;
+    where r.boundary is not null and st_intersects(r.boundary, v_g)
+    order by st_distance(st_centroid(r.boundary::geometry)::geography, v_g) limit 1;
 
     insert into public.spots (geom, category, region_id)
     values (v_g, p_category, v_region) returning id into v_spot;
@@ -418,19 +419,28 @@ grant select on public.regions, public.cctv_points to anon, authenticated;
 grant insert, update, delete on public.regions, public.cctv_points to authenticated;
 grant usage, select on sequence public.regions_id_seq, public.cctv_points_id_seq to authenticated;
 
-create policy regions_read   on public.regions     for select using (true);
-create policy regions_admin  on public.regions     for all to authenticated using (public.is_admin()) with check (public.is_admin());
-create policy cctv_read      on public.cctv_points for select using (true);
-create policy cctv_admin     on public.cctv_points for all to authenticated using (public.is_admin()) with check (public.is_admin());
+drop policy if exists regions_read on public.regions;
+create policy regions_read on public.regions     for select using (true);
+drop policy if exists regions_admin on public.regions;
+create policy regions_admin on public.regions     for all to authenticated using (public.is_admin()) with check (public.is_admin());
+drop policy if exists cctv_read on public.cctv_points;
+create policy cctv_read on public.cctv_points for select using (true);
+drop policy if exists cctv_admin on public.cctv_points;
+create policy cctv_admin on public.cctv_points for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
 -- Tabel inti: hanya admin yang boleh membaca langsung (publik lewat view). Tidak ada hak tulis langsung.
 grant select on public.profiles, public.spots, public.reports, public.confirmations, public.spot_updates to authenticated;
 
+drop policy if exists profiles_read_own on public.profiles;
 create policy profiles_read_own on public.profiles      for select to authenticated using (id = auth.uid() or public.is_admin());
-create policy spots_admin_read  on public.spots         for select to authenticated using (public.is_admin());
-create policy reports_read      on public.reports       for select to authenticated using (user_id = auth.uid() or public.is_admin());
-create policy confirm_read      on public.confirmations for select to authenticated using (user_id = auth.uid() or public.is_admin());
-create policy updates_admin     on public.spot_updates  for select to authenticated using (public.is_admin());
+drop policy if exists spots_admin_read on public.spots;
+create policy spots_admin_read on public.spots         for select to authenticated using (public.is_admin());
+drop policy if exists reports_read on public.reports;
+create policy reports_read on public.reports       for select to authenticated using (user_id = auth.uid() or public.is_admin());
+drop policy if exists confirm_read on public.confirmations;
+create policy confirm_read on public.confirmations for select to authenticated using (user_id = auth.uid() or public.is_admin());
+drop policy if exists updates_admin on public.spot_updates;
+create policy updates_admin on public.spot_updates  for select to authenticated using (public.is_admin());
 
 -- View publik.
 grant select on public.public_spots, public.public_spot_updates, public.neglected_spots, public.region_scores to anon, authenticated;

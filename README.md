@@ -4,7 +4,7 @@ Platform pelaporan titik rawan dengan **transparansi tindak lanjut**: warga mela
 
 Karya lomba **Web In Action (WIA) — Multimedia In Action 2026**. Tema: *Designing Digital Futures, Powering Public Transparency*.
 
-> Data pada versi demo adalah **data simulasi**, bukan data kejadian nyata.
+> Fokus wilayah: **Jabodetabek**. Data pada versi demo adalah **data simulasi**, bukan data kejadian nyata. Nama wilayah, skor, dan status pada data demo fiktif dan tidak menggambarkan kinerja instansi mana pun.
 
 ## Subtema yang dicakup
 Civic Reporting & Accountability · Public Service Tracking · Data-Driven Decision Support · Open Government Data (sebagian)
@@ -40,7 +40,7 @@ cp .env.example .env.local
 
 # 3. Siapkan database (Supabase > SQL Editor), jalankan berurutan:
 #    supabase/sql/01_schema.sql
-#    supabase/sql/02_seed_demo.sql   (data simulasi, opsional)
+#    supabase/sql/02_seed_demo.sql   (data simulasi Jabodetabek, opsional)
 
 # 4. Jalankan
 npm run dev
