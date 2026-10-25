@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import type { CircleMarker, Map as LeafletMap } from "leaflet";
-import "leaflet/dist/leaflet.css";
+import Image from "next/image";
+import { useState } from "react";
+import mapPreview from "../../../public/images/jakarta-preview.webp";
 
 const stages = [
   { id: "reported", label: "Dilaporkan", date: "18 Oktober 2026", color: "#916110", title: "Warga menandai titik", description: "Lampu di jalur pejalan kaki belum menyala. Laporan dari dua akun berbeda membuat titik ini dapat dilihat publik.", note: "Menunggu peninjauan instansi", count: "2 pelapor", time: "18 Okt", action: "Laporan warga tercatat" },
@@ -12,41 +12,11 @@ const stages = [
 ] as const;
 
 function DemoMap({ stage }: { stage: number }) {
-  const container = useRef<HTMLDivElement>(null);
-  const marker = useRef<CircleMarker | null>(null);
-  const [unavailable, setUnavailable] = useState(false);
-
-  useEffect(() => {
-    let disposed = false;
-    let map: LeafletMap | null = null;
-    let resize: ResizeObserver | null = null;
-
-    import("leaflet").then((module) => {
-      if (disposed || !container.current) return;
-      const L = module.default;
-      map = L.map(container.current, {
-        zoomControl: false, scrollWheelZoom: false, dragging: false,
-        doubleClickZoom: false, touchZoom: false, keyboard: false,
-        boxZoom: false, attributionControl: false,
-      }).setView([-6.248, 106.811], 12);
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19 }).addTo(map);
-      const examples: [number, number][] = [[-6.213, 106.782], [-6.218, 106.853], [-6.274, 106.753], [-6.292, 106.845], [-6.231, 106.89]];
-      examples.forEach((point) => L.circleMarker(point, { radius: 6, color: "#ffffff", weight: 3, fillColor: "#1a2a4a", fillOpacity: 1 }).addTo(map!));
-      marker.current = L.circleMarker([-6.248, 106.811], { radius: 11, color: "#ffffff", weight: 5, fillColor: stages[0].color, fillOpacity: 1 }).addTo(map);
-      resize = new ResizeObserver(() => map?.invalidateSize());
-      resize.observe(container.current);
-    }).catch(() => { if (!disposed) setUnavailable(true); });
-
-    return () => { disposed = true; resize?.disconnect(); map?.remove(); marker.current = null; };
-  }, []);
-
-  useEffect(() => { marker.current?.setStyle({ fillColor: stages[stage].color }); }, [stage]);
-
   return (
-    <>
-      <div ref={container} className="story-map" aria-label="Peta dasar Jakarta Selatan dengan penanda contoh simulasi" />
-      {unavailable && <p className="map-unavailable">Pratinjau peta belum termuat. Riwayat contoh tetap bisa dibaca di bawah.</p>}
-    </>
+    <div className="story-map">
+      <Image src={mapPreview} alt="Peta dasar Jakarta Selatan dengan penanda contoh simulasi" fill sizes="(max-width: 900px) calc(100vw - 44px), 50vw" loading="eager" fetchPriority="high" style={{ objectFit: "cover" }} />
+      <span className="preview-active-marker" style={{ backgroundColor: stages[stage].color }} aria-hidden="true" />
+    </div>
   );
 }
 
@@ -61,7 +31,7 @@ export default function ReportStory() {
           <h1 id="landing-title"><span className="headline-line"><span className="reveal">Jaga titik.</span></span><span className="headline-line"><span className="reveal">Pantau aksinya.</span></span></h1>
           <p className="hero-description reveal">Jaga Titik menghubungkan laporan titik rawan dengan tindak lanjut yang bisa dipantau bersama.</p>
           <div className="hero-actions reveal">
-            <Link href="/peta" className="action-primary hero-action">Jelajahi peta <span aria-hidden="true">↗</span></Link>
+            <Link href="/peta" prefetch={false} className="action-primary hero-action">Jelajahi peta <span aria-hidden="true">↗</span></Link>
             <a href="#cara-kerja" className="text-link">Lihat cara kerjanya</a>
           </div>
           <div className="hero-context reveal">
@@ -73,7 +43,7 @@ export default function ReportStory() {
         <section id="cara-kerja" className="story-steps" aria-labelledby="story-title">
           <h2 id="story-title" className="reveal">Laporan punya kelanjutan</h2>
           <p className="section-description reveal">Satu titik, satu riwayat yang terbuka. Pilih tahapan untuk mengikuti contoh laporannya.</p>
-          <div className="stage-buttons" aria-label="Tahapan contoh laporan">
+          <div className="stage-buttons" role="group" aria-label="Tahapan contoh laporan">
             {stages.map((item, index) => (
               <button key={item.id} type="button" className="stage-button reveal" data-stage-button={item.id} aria-pressed={stage === index} onClick={() => setStage(index)}>
                 <span className="stage-dot" aria-hidden="true" />
@@ -86,7 +56,7 @@ export default function ReportStory() {
         </section>
       </div>
 
-      <div className="story-visual reveal">
+      <div className="story-visual">
         <div className="map-stage" data-ui="map-preview">
           <DemoMap stage={stage} />
           <div className="map-heading"><span>Jakarta Selatan</span><span className="demo-tag">Simulasi</span></div>

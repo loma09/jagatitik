@@ -63,8 +63,8 @@ export default function Home() {
             <p className="preview-footnote">Sinyal pendukung, bukan bukti kebenaran mutlak.</p>
           </div>
           <div className="trust-copy">
-            <div className="reveal"><h3>Terbuka caranya</h3><p>Aturan tayang, faktor kepercayaan, dan peluruhan bobot perlu bisa dipahami oleh siapa pun yang membaca peta.</p></div>
-            <div className="reveal"><h3>Terjaga identitasnya</h3><p>Yang dibutuhkan publik adalah lokasi dan tindak lanjut. Bukan nama korban atau identitas pribadi pelapor.</p></div>
+            <div className="trust-principle reveal"><h3>Terbuka caranya</h3><p>Aturan tayang, faktor kepercayaan, dan peluruhan bobot dijelaskan agar siapa pun bisa memahami penilaian laporan.</p></div>
+            <div className="trust-principle reveal"><h3>Terjaga identitasnya</h3><p>Publik melihat lokasi dan tindak lanjut. Nama korban dan identitas pribadi pelapor tidak ditampilkan.</p></div>
             <Link href="/metodologi" className="text-link reveal">Pelajari metodologi</Link>
           </div>
         </div>
@@ -87,15 +87,23 @@ export default function Home() {
       </section>
 
       <section className="faq-section page-gutter" aria-labelledby="faq-title">
-        <h2 id="faq-title" className="reveal">Sebelum melapor</h2>
+        <div className="faq-intro">
+          <h2 id="faq-title" className="reveal">FAQ</h2>
+          <p className="reveal">Hal yang perlu kamu ketahui sebelum ikut menjaga. Pilih pertanyaan untuk melihat jawabannya.</p>
+        </div>
         <div className="faq-answers">
-          {questions.map(([question, answer]) => <p key={question} className="reveal"><strong>{question}</strong> {answer}</p>)}
+          {questions.map(([question, answer]) => (
+            <details key={question} name="jaga-titik-faq" className="faq-item reveal">
+              <summary><span>{question}</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M10 4v12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg></summary>
+              <div className="faq-answer"><p>{answer}</p></div>
+            </details>
+          ))}
         </div>
       </section>
 
       <section className="closing-section page-gutter" aria-labelledby="closing-title">
         <div><h2 id="closing-title" className="reveal">Mulai dari sekitarmu</h2><p className="reveal">Kenali titik yang dilaporkan. Ikuti apa yang terjadi setelahnya.</p></div>
-        <Link href="/peta" className="action-primary reveal">Jelajahi peta <span aria-hidden="true">↗</span></Link>
+        <Link href="/peta" prefetch={false} className="action-primary reveal">Jelajahi peta <span aria-hidden="true">↗</span></Link>
       </section>
     </div>
   );

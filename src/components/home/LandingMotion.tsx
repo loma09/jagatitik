@@ -32,9 +32,19 @@ export default function LandingMotion() {
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
     const register = () => {
-      document.querySelectorAll<HTMLElement>(".landing .reveal").forEach((element) => {
-        if (elements.has(element)) return;
+      const pending = Array.from(document.querySelectorAll<HTMLElement>(".landing .reveal")).filter(element => !elements.has(element));
+      // Read positions together before setting attributes that invalidate layout.
+      const initiallyVisible = new Set(pending.filter(element => {
+        const bounds = element.getBoundingClientRect();
+        return bounds.top < window.innerHeight && bounds.bottom > 0;
+      }));
+      pending.forEach((element) => {
         elements.add(element);
+        // Initial viewport content must paint immediately; keep entrances for scrolling.
+        if (element.closest(".landing-hero") || initiallyVisible.has(element)) {
+          element.dataset.motionState = "entered";
+          return;
+        }
         element.dataset.motionState = "ready";
         observer.observe(element);
       });
