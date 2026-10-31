@@ -11,7 +11,7 @@ Civic Reporting & Accountability · Public Service Tracking · Data-Driven Decis
 
 ## Fitur utama (rencana)
 - Lapor titik rawan anonim + skor kepercayaan berbasis aturan
-- Peta dan heatmap titik terverifikasi
+- Heatmap publik berbobot kepercayaan dan peluruhan waktu, tanpa pin atau legenda status
 - Timeline tindak lanjut per titik
 - Titik Terabaikan dan Skor Respons wilayah
 - Dashboard admin (verifikasi, update status, ekspor)
@@ -20,7 +20,7 @@ Civic Reporting & Accountability · Public Service Tracking · Data-Driven Decis
 
 ## Tech stack
 - **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS
-- **Peta:** Leaflet + OpenStreetMap
+- **Peta:** Leaflet + Leaflet.heat + OpenStreetMap
 - **Backend/DB:** Supabase (Auth, PostgreSQL + PostGIS, Row Level Security)
 - **Deploy:** Vercel
 
@@ -73,11 +73,11 @@ jaga-titik/
 - [x] Skema database + keamanan (RLS) + fungsi lapor/konfirmasi/verifikasi, diuji lokal
 - [x] Kerangka proyek dan rute sesuai sitemap
 - [x] Landing page
-- [x] Halaman peta (membaca titik publik dari Supabase)
-- [ ] Form lapor + skor kepercayaan
+- [x] Heatmap publik (membaca lokasi dan bobot dari Supabase; tanpa pin/status)
+- [x] Form lapor dengan pemilihan pin, login Google, dan pemanggilan RPC skor kepercayaan (pengujian akun nyata masih diperlukan)
 - [ ] Detail titik + timeline
 - [ ] Dashboard admin
-- [ ] Transparansi (Skor Respons, Titik Terabaikan), heatmap
+- [ ] Transparansi (Skor Respons, Titik Terabaikan)
 - [ ] Cek rute, CCTV (jika waktu cukup)
 
 ## Alur kerja Git
@@ -85,3 +85,13 @@ Satu fitur satu branch (`feat/nama-fitur`), commit kecil dengan pesan jelas, lal
 
 ## Lisensi dan atribusi
 Peta: © kontributor OpenStreetMap.
+
+## Peran dan akses peta
+
+- **Pengguna:** pengunjung tanpa login, dapat menjelajahi heatmap publik; tidak melihat pin atau status verifikasi pada peta.
+- **Pelapor:** warga yang login dengan Google, dapat memilih satu pin lokasi di `/lapor` dan mengirim laporan melalui `submit_report`. Label database lama `warga` tetap dipakai untuk kompatibilitas.
+- **Admin:** akun dengan `profiles.role = admin`; berwenang mengelola laporan melalui RPC admin. Halaman dashboard masih dalam pengerjaan.
+
+Tidak ada perubahan skema SQL untuk perubahan tampilan ini. Status dan aturan tayang tetap diproses di backend. Aktifkan provider Google pada Supabase Auth dan tambahkan URL `/lapor` dari domain aplikasi ke Redirect URLs. Akun baru memperoleh profil melalui trigger yang sudah ada.
+
+Tes lokal: `node --test tests/*.test.mjs`, lalu `npm run lint` dan `npm run build`. Tes tidak mengirim laporan ke database.

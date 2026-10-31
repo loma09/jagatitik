@@ -1,7 +1,5 @@
-import PlaceholderPage from "@/components/ui/PlaceholderPage";
-
+import ReportForm from "@/components/reports/ReportForm";
 export const metadata = { title: "Lapor titik rawan — Jaga Titik" };
-
 export default function Page() {
-  return <PlaceholderPage title="Lapor titik rawan" description="Form laporan anonim: lokasi, kategori, deskripsi singkat." />;
+  return <section className="report-page page-gutter"><h1>Laporkan kejadian di sekitarmu</h1><p className="report-intro">Tentukan lokasi kejadian dan ceritakan seperlunya. Identitas pelapor tidak ditampilkan di peta publik.</p><ReportForm /></section>;
 }

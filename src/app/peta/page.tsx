@@ -1,27 +1,21 @@
+import Link from "next/link";
 import MapView from "@/components/map/MapView";
-import { STATUS_COLOR, STATUS_LABEL } from "@/utils/status";
-import type { SpotStatus } from "@/types/spot";
 
-export const metadata = { title: "Peta titik rawan — Jaga Titik" };
-
-const legend: SpotStatus[] = ["pending", "verified", "in_progress", "resolved"];
+export const metadata = { title: "Heatmap laporan — Jaga Titik" };
 
 export default function PetaPage() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="text-2xl font-bold text-brand">Peta titik rawan</h1>
-      <p className="mt-1 mb-4 text-slate-600">
-        Hanya titik yang sudah memenuhi aturan tayang yang ditampilkan. Data pada versi demo adalah simulasi.
-      </p>
-      <ul className="mb-4 flex flex-wrap gap-4 text-sm">
-        {legend.map((s) => (
-          <li key={s} className="flex items-center gap-2">
-            <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: STATUS_COLOR[s] }} />
-            {STATUS_LABEL[s]}
-          </li>
-        ))}
-      </ul>
+    <section className="heatmap-page page-gutter">
+      <div className="heatmap-intro">
+        <div><h1>Kenali sekitar lewat laporan warga</h1><p>Jelajahi sebaran laporan di Jabodetabek. Warna yang lebih hangat menunjukkan kepadatan berbobot laporan yang lebih tinggi.</p></div>
+        <Link href="/lapor" prefetch={false} className="action-primary">Buat laporan <span aria-hidden="true">↗</span></Link>
+      </div>
+      <div className="heatmap-toolbar">
+        <span className="demo-tag">Data demo: simulasi</span>
+        <div className="heatmap-legend" role="img" aria-label="Intensitas laporan dari rendah, biru, hingga tinggi, merah"><span>Rendah</span><span className="heatmap-scale" /><span>Tinggi</span></div>
+      </div>
       <MapView />
+      <p className="heatmap-disclaimer">Heatmap memakai bobot kepercayaan dan peluruhan waktu laporan. Warna bukan jaminan keamanan atau penilaian suatu wilayah. Tidak adanya laporan bukan berarti tidak ada kejadian.</p>
     </section>
   );
 }

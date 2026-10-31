@@ -1,7 +1,5 @@
-import PlaceholderPage from "@/components/ui/PlaceholderPage";
-
+import LoginPanel from "@/components/auth/LoginPanel";
 export const metadata = { title: "Masuk — Jaga Titik" };
-
 export default function Page() {
-  return <PlaceholderPage title="Masuk" description="Login dengan Google untuk melapor atau mengonfirmasi." />;
+  return <section className="report-page page-gutter"><h1>Ikut menjaga sekitar</h1><LoginPanel /></section>;
 }

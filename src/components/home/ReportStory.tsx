@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import mapPreview from "../../../public/images/jakarta-preview.webp";
+import mapPreview from "../../../public/images/jakarta-heatmap-preview.jpg";
 
 const stages = [
   { id: "reported", label: "Dilaporkan", date: "18 Oktober 2026", color: "#916110", title: "Warga menandai titik", description: "Lampu di jalur pejalan kaki belum menyala. Laporan dari dua akun berbeda membuat titik ini dapat dilihat publik.", note: "Menunggu peninjauan instansi", count: "2 pelapor", time: "18 Okt", action: "Laporan warga tercatat" },
@@ -11,11 +11,10 @@ const stages = [
   { id: "resolved", label: "Selesai", date: "21 Oktober 2026", color: "#326c50", title: "Tindakan bisa ditelusuri", description: "Perbaikan dicatat dalam riwayat publik. Status selesai tetap menyimpan perjalanan laporan dari awal.", note: "Lampu diperbaiki dan kembali menyala", count: "2 pelapor", time: "21 Okt", action: "Perbaikan lampu dicatat" },
 ] as const;
 
-function DemoMap({ stage }: { stage: number }) {
+function DemoMap() {
   return (
     <div className="story-map">
-      <Image src={mapPreview} alt="Peta dasar Jakarta Selatan dengan penanda contoh simulasi" fill sizes="(max-width: 900px) calc(100vw - 44px), 50vw" loading="eager" fetchPriority="high" style={{ objectFit: "cover" }} />
-      <span className="preview-active-marker" style={{ backgroundColor: stages[stage].color }} aria-hidden="true" />
+      <Image src={mapPreview} alt="Contoh heatmap laporan di Jabodetabek; data simulasi" fill sizes="(max-width: 900px) calc(100vw - 44px), 50vw" loading="eager" fetchPriority="high" style={{ objectFit: "cover" }} />
     </div>
   );
 }
@@ -58,11 +57,11 @@ export default function ReportStory() {
 
       <div className="story-visual">
         <div className="map-stage" data-ui="map-preview">
-          <DemoMap stage={stage} />
-          <div className="map-heading"><span>Jakarta Selatan</span><span className="demo-tag">Simulasi</span></div>
-          <div className="map-point-label"><span className="point-marker" aria-hidden="true" />Titik yang kita jaga</div>
+          <DemoMap />
+          <div className="map-heading"><span>Heatmap Jabodetabek</span><span className="demo-tag">Simulasi</span></div>
+          <div className="map-point-label">Kepadatan berbobot laporan</div>
           <div className="map-record" data-stage-preview={current.id} aria-live="polite" aria-atomic="true">
-            <div className="record-top"><span>Area gelap / sepi</span><span className={`status-chip status-${current.id}`}>{current.label}</span></div>
+            <div className="record-top"><span>Area gelap / sepi</span><span>Contoh laporan</span></div>
             <p className="record-name">Lampu jalan belum menyala</p>
             <p className="record-location">Titik contoh di Jakarta Selatan</p>
             <div key={current.id} className="record-change">

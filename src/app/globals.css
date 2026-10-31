@@ -234,3 +234,37 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
   html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal[data-motion-state="ready"] { opacity: 1; transform: none; }
 }
+
+/* Heatmap publik dan pemilihan lokasi pelapor. */
+.heatmap-page, .report-page { padding-block: 48px 64px; }
+.heatmap-intro { display:flex; justify-content:space-between; align-items:center; gap:32px; margin-bottom:32px; }
+.heatmap-intro h1, .report-page h1 { font-size:clamp(30px,3vw,46px); line-height:1.12; letter-spacing:-.045em; font-weight:600; max-width:22ch; }
+.heatmap-intro p, .report-intro { color:var(--muted); line-height:1.7; max-width:65ch; margin-top:18px; }
+.heatmap-intro .action-primary { flex-shrink:0; }
+.heatmap-toolbar { display:flex; justify-content:space-between; gap:20px; align-items:center; padding-bottom:16px; }
+.heatmap-toolbar .demo-tag { border-radius:999px; background:#e4ebf5; padding:8px 13px; font-size:13px; }
+.heatmap-legend { display:flex; align-items:center; gap:12px; font-size:13px; color:var(--muted); }
+.heatmap-scale { display:block; width:150px; height:9px; border-radius:99px; background:linear-gradient(90deg,#2c7bb6,#41b6c4,#f9d057,#f79043,#d73027); }
+.interactive-map { height:65svh; min-height:360px; width:100%; border:1px solid #d4deea; border-radius:26px; overflow:hidden; background:#e4ebe8; z-index:0; }
+.map-feedback { font-size:14px; color:var(--muted); line-height:1.6; }
+.map-feedback:not(:empty) { margin-bottom:12px; }
+.heatmap-disclaimer { font-size:13px; line-height:1.7; color:var(--muted); max-width:95ch; margin-top:20px; }
+.report-page > h1 { max-width:26ch; }
+.report-login { margin-top:36px; max-width:650px; padding:32px; background:var(--white); border-radius:26px; }
+.report-login h2, .report-form h2 { font-size:24px; font-weight:600; letter-spacing:-.03em; }
+.report-login p { color:var(--muted); line-height:1.7; margin-block:16px 24px; }
+.action-primary:disabled { opacity:.55; cursor:not-allowed; transform:none; }
+.report-form { display:grid; grid-template-columns:1.2fr 1fr; gap:36px; margin-top:36px; }
+.report-location > p { font-size:14px; line-height:1.7; color:var(--muted); margin-block:12px 18px; }
+.location-picker-map { height:480px; }
+.report-fields { display:flex; flex-direction:column; gap:20px; padding:28px; background:var(--white); border-radius:26px; }
+.report-fields label:not(.report-consent) { display:grid; gap:8px; font-size:14px; font-weight:500; }
+.report-fields select, .report-fields input:not([type="checkbox"]), .report-fields textarea { width:100%; border:1px solid #bac8d8; border-radius:12px; padding:12px; color:var(--ink); background:var(--white); font:inherit; }
+.report-fields textarea { resize:vertical; }
+.report-fields > p, .report-consent { font-size:13px; line-height:1.7; color:var(--muted); }
+.report-consent { display:flex; align-items:flex-start; gap:10px; }
+.report-consent input { margin-top:5px; width:18px; height:18px; flex-shrink:0; }
+.report-location-pin { background:none; border:0; }
+.report-location-pin span { display:block; width:30px; height:30px; background:var(--brand); border:4px solid var(--white); border-radius:50% 50% 50% 0; transform:rotate(-45deg); box-shadow:0 3px 10px #162b4555; }
+@media (max-width:900px) { .heatmap-intro { flex-direction:column; align-items:flex-start; gap:22px; } .report-form { grid-template-columns:1fr; } }
+@media (max-width:520px) { .heatmap-page,.report-page { padding-block:30px 44px; } .heatmap-toolbar { flex-wrap:wrap; } .interactive-map { min-height:360px; border-radius:20px; } .heatmap-scale { width:120px; } .report-login,.report-fields { padding:22px; } }

@@ -9,9 +9,9 @@ const timeline = [
 ];
 
 const questions = [
-  ["Siapa yang bisa melihat laporan?", "Siapa pun bisa membuka peta dan melihat titik yang memenuhi aturan tayang. Masuk ke akun diperlukan untuk mengirim laporan."],
+  ["Siapa yang bisa melihat laporan?", "Siapa pun bisa membuka peta dan melihat heatmap dari laporan yang memenuhi aturan tayang. Masuk ke akun diperlukan untuk mengirim laporan."],
   ["Apakah identitas saya ditampilkan?", "Nama dan identitas pelapor tidak ditampilkan di peta publik. Hindari menulis nama orang, nomor telepon, NIK, atau plat nomor dalam laporan."],
-  ["Kapan sebuah titik muncul?", "Titik dapat tayang setelah dilaporkan minimal dua akun berbeda atau diverifikasi admin. Tayang tidak selalu berarti sudah diverifikasi admin."],
+  ["Kapan laporan masuk ke heatmap?", "Laporan berkontribusi setelah memenuhi aturan tayang: minimal dua akun berbeda atau peninjauan admin. Heatmap menampilkan kepadatan berbobot, tanpa pin maupun status verifikasi."],
   ["Apakah ini menjamin suatu lokasi aman?", "Tidak. Peta menunjukkan laporan yang tersedia, bukan jaminan keamanan atau gambaran lengkap kondisi suatu wilayah."],
   ["Apakah semua fitur sudah tersedia?", "Jaga Titik masih dalam pengembangan. Peta sudah dapat dijelajahi; contoh timeline dan transparansi di halaman ini memperlihatkan alur yang direncanakan."],
   ["Bagaimana jika saya dalam bahaya?", "Utamakan keselamatan dan hubungi layanan darurat resmi. Jaga Titik bukan pengganti laporan polisi atau penanganan keadaan darurat."],
